@@ -1,2 +1,5 @@
 alldocs/
 .DS_Store
+doc_ids.txt
+term_ids.txt
+term_index.txt
