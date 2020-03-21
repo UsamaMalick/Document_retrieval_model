@@ -15,8 +15,51 @@ def load_inverted_index():
 
     content = file.read().split('\n')
 
+    inverted_index = {}
 
-    print(content[10:2])
+    for data in content:
+        data = data.split()
+        if data != []:
+            if data[0] is not None:
+                    inverted_index[data[0]] = {"total_occ": data[1],
+                                     "total_doc":data[2],
+                                     "doc_pos": data[3:]}
+
+    return inverted_index
+
+def restructuring_inverted_index():
+    restructured_inverted_index = inverted_index
+    for key , value in inverted_index.items():
+        doc_pos = {}
+        pos_list = []
+        pre_doc_value = 0
+        position = 0
+        for doc_pos_list in value["doc_pos"]:
+
+            doc_pos_list = doc_pos_list.split(',')
+            pre_doc_value = int(doc_pos_list[0]) + pre_doc_value
+
+            if int(doc_pos_list[0]) != 0:
+                pos_list = []
+                position = int(doc_pos_list[1])
+            else:
+                position = int(doc_pos_list[1]) + position
+
+            pos_list.append(position)
+            doc_pos[pre_doc_value] = pos_list
+
+        restructured_inverted_index[key]["doc_pos"] = doc_pos
+
+    return restructured_inverted_index
+
+
+def get_termID(term):
+    if corpus[term] is not None:
+        print(corpus[term] + " : " + term)
+        return corpus[term]
+    else:
+        print(term + "does'nt exist in corpus.")
+        return None
 
 
 def query_pre_processing(query):
@@ -46,8 +89,7 @@ def get_queries():
         line = line.translate(translator)
         query_temp = line.split()
         if query_temp != []:
-            query[query_temp[0]] = {"words"  : []}
-            query[query_temp[0]]["words"] = query_temp[1:]
+            query[query_temp[0]]= query_temp[1:]
 
     return query
 
@@ -83,19 +125,46 @@ def load_doc_ids():
 
     return doc_ids
 
+def search_query_docs(query_words):
+
+    query_len = len(query_words)
+    print(query_words)
+    print(query_len)
+    # for term in query_words:
+    #     term_ID = get_termID(term)
+    #     if term_ID is not None:
+    #         doc_and_pos = hash_inverted_index[term_ID]["doc_pos"]
+    #         print(doc_and_pos)
+            # for value in doc_and_pos:
+            #     value = value.split(',')
+
+
 
 queries = get_queries()
 corpus = load_dictionary()
 doc_ids = load_doc_ids()
+inverted_index = load_inverted_index()
+
+# hash_inverted_index  = restructuring_inverted_index()
+
+def main():
+    query_words =  query_pre_processing(queries["701"])
+    search_query_docs(query_words)
+
+main()
 
 
-query_list =  query_pre_processing(queries["701"]["words"])
 
-load_inverted_index()
-
+# i = 1
+# for key , value in queries.items():
+#     query_words =  query_pre_processing(value)
+#     for word in query_words:
+#         if corpus[word] is not None:
+#             print(corpus[word] + " : " + word)
+#         else:
+#             print(word + "does'nt exist in corpus.")
 #
-# for word in query_list:
-#     if corpus[word] is not None:
-#         print(corpus[word] + " : " + word)
-#     else:
-#         print(word + "does'nt exist in corpus.")
+#
+#     i = i + 1
+#     if i > 2:
+#         break
