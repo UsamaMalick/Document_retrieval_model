@@ -130,6 +130,47 @@ def search_query_docs(query_words):
     query_len = len(query_words)
     print(query_words)
     print(query_len)
+
+    keys_list = []
+    temp_keys_list = []
+    first_loop = True
+    for word in query_words: # this for loop will make a list of all the documents that have the query words
+        term_ID = get_termID(word)
+        if term_ID is not None:
+            doc_and_pos = hash_inverted_index[term_ID]["doc_pos"]
+            for key in doc_and_pos:
+                temp_keys_list.append(int(key))
+        if first_loop == True:
+            keys_list = temp_keys_list
+            first_loop = False
+        else:
+            intersection_list = [value for value in keys_list if value in temp_keys_list]
+            temp_keys_list.clear()
+            keys_list = intersection_list
+
+    term_pos_list = {}
+    for doc_num in keys_list:
+        print(doc_num)
+        term_pos_list.clear()
+        for word in query_words:
+            term_ID = get_termID(word)
+            if term_ID is not None:
+                term_pos_list[term_ID] = hash_inverted_index[term_ID]["doc_pos"][int(doc_num)]
+
+            print(term_pos_list)
+
+        for key , value in term_pos_list.items():
+            pass
+
+
+        break
+
+
+
+        # for key , value in doc_and_pos.items():
+        #     pass
+
+
     # for term in query_words:
     #     term_ID = get_termID(term)
     #     if term_ID is not None:
@@ -145,7 +186,7 @@ corpus = load_dictionary()
 doc_ids = load_doc_ids()
 inverted_index = load_inverted_index()
 
-# hash_inverted_index  = restructuring_inverted_index()
+hash_inverted_index  = restructuring_inverted_index()
 
 def main():
     query_words =  query_pre_processing(queries["701"])
