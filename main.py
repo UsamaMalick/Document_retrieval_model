@@ -194,8 +194,6 @@ def search_query_docs(query_words):
                 if doc_num is not None:
                     if int(doc_num) in hash_inverted_index[term_ID]["doc_pos"] :
                         term_pos_list[term_ID] = hash_inverted_index[term_ID]["doc_pos"][int(doc_num)]
-                    # else :
-                    #     print("No file for :" + str(term_ID) + " in  doc_num :"  + str(doc_num))
 
         dic_keys = list(term_pos_list.keys())
         length = len(dic_keys)
@@ -264,8 +262,7 @@ def main():
             document_IDs[query_ID] = list(dict.fromkeys(document_IDs[query_ID]))
 
         print("Documents find with tri words")
-        # print(document_IDs[query_ID])
-        # print(len(document_IDs[query_ID]))
+
 
         if document_IDs[query_ID] == []:
             #check for query as bi-words
@@ -286,10 +283,6 @@ def main():
                 document_IDs[query_ID] = [value for value in document if value not in document_IDs]
                 document_IDs[query_ID] = list(dict.fromkeys(document_IDs[query_ID]))
 
-            # print("Documents find with Bi words")
-            # print(document_IDs[query_ID])
-            # print(len(document_IDs[query_ID]))
-        # break
 
     my_output(document_IDs)
     print("The End")

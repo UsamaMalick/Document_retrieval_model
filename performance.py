@@ -44,7 +44,8 @@ for i in range(701 , 851):
         true_positive = abs(len(list(set(output[str(i)]) & set(my_output[str(i)]))))
         false_negative = abs(len(list(set(my_output[str(i)]) - set(output[str(i)]))))
         false_positive = abs(len(list(set(output[str(i)]) - set(my_output[str(i)]))))
-        true_negative = 0
+        irrelevant = 6376 - abs(len(set(output[str(i)])))
+        true_negative = irrelevant - false_negative
 
         #accuracy
         nominator = true_positive + true_negative
