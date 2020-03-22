@@ -60,3 +60,27 @@ for i in range(len-1):
 
 
 print(present)
+
+
+my = ['work' , 'from' , 'home']
+
+
+print(my[0])
+
+for i in range(3-2):
+    print(i)
+# bi_word = []
+#
+# for k in range(len(my)-1):
+#     i = 0
+#     for item in my:
+#         bi_word.append(item)
+#         i = i + 1
+#         if i == 2:
+#             my.pop()
+#         break
+    #fucntion call
+
+
+
+
